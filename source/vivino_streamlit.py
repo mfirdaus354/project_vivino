@@ -322,7 +322,7 @@ query_vip_wine_list = """SELECT g.name,w.name,w.ratings_average FROM wines w
 
 cursor = conn.execute(query_vip_wine_list)
 db_data_vip_list = cursor.fetchall()
-db_df_vip_list = pd.DataFrame(db_data_vip_list, columns=['Wine name','Wine Rating','Rating Average'])
+db_df_vip_list = pd.DataFrame(db_data_vip_list, columns=['Grape','Wine name','Rating Average'])
 st.dataframe(db_df_vip_list)
 
 
