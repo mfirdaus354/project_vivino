@@ -118,7 +118,6 @@ with col2:
     st.subheader("Countries by Ratings Count")
     st.bar_chart(db_df_ratings_count.set_index('Country Name').sort_values(by='Ratings Count', ascending=False))
 
-# Connect to your database
 conn = sqlite3.connect('../data/vivino.db')
 
 # Query to retrieve wine data along with flavor keywords and groups
@@ -149,13 +148,10 @@ query_wine_flavors = """
         ratings_count DESC;
 """
 
-# Execute the query
 cursor = conn.execute(query_wine_flavors)
 
-# Fetch all the rows
 db_data_wine_flavors = cursor.fetchall()
 
-# Close the database connection
 conn.close()
 
 # Create a DataFrame for the data
@@ -183,11 +179,10 @@ filtered_df = df_wine_flavors_grouped[
     & df_wine_flavors_grouped['Flavor Group'].apply(lambda x: any(group in selected_groups for group in x))
 ]
 
-# Display the filtered table
+
 st.write('Filtered Wines:')
 st.dataframe(filtered_df)
 
-# Connect to your database
 conn = sqlite3.connect('../data/vivino.db')
 st.title("Wines for top 3 most common grapes Visualization")
 # Query to fetch the top 3 most common grape varieties
@@ -246,17 +241,114 @@ wine_query = f"""
     LIMIT 5;
 """
 
-# Execute the wine query
 wine_cursor = conn.execute(wine_query)
 wine_data = wine_cursor.fetchall()
 
-# Close the database connection
+
 conn.close()
 
-# Display the selected grape
+
 st.write(f"Selected Grape: {selected_grape}")
 
-# Display the table of top 5 best-rated wines
+
 wine_df = pd.DataFrame(wine_data, columns=['Wine Name', 'Rating', 'Review Count', 'Grape ID', 'Grape Name', 'Region Name', 'Country Name'])
 st.write(wine_df)
 
+
+conn = sqlite3.connect('../data/vivino.db')
+
+# Title and introduction
+st.title('Leaderboard countries average ratings')
+st.write('')
+
+# Query for the leaderboard
+query_avg_rating = """
+    SELECT
+        countries.name AS country_name,
+        ROUND(AVG(wines.ratings_average), 2) AS avg_rating,
+        sum(wines.ratings_count) AS total_reviews
+    FROM
+        wines
+    INNER JOIN 
+        regions ON wines.region_id = regions.id
+    INNER JOIN 
+        countries ON regions.country_code = countries.code
+    GROUP BY 
+        countries.name
+    ORDER BY 
+        avg_rating DESC;
+"""
+
+# Execute the query
+cursor = conn.execute(query_avg_rating)
+
+db_data_avg_rating = cursor.fetchall()
+
+db_df_avg_rating = pd.DataFrame(db_data_avg_rating, columns=['Country Name', 'Average Rating', 'Total Reviews'])
+
+# Manually defined latitude and longitude values for each country
+manual_coordinates = {
+    "Israël": {"latitude": 31.0461, "longitude": 34.8516},
+    "Allemagne": {"latitude": 51.1657, "longitude": 10.4515},
+    "États-Unis": {"latitude": 37.0902, "longitude": -95.7129},
+    "Moldavie": {"latitude": 47.4116, "longitude": 28.3699},
+    "Hongrie": {"latitude": 47.1625, "longitude": 19.5033},
+    "Afrique du Sud": {"latitude": -30.5595, "longitude": 22.9375},
+    "Australie": {"latitude": -25.2744, "longitude": 133.7751},
+    "France": {"latitude": 46.6034, "longitude": 1.8883},
+    "Portugal": {"latitude": 39.3999, "longitude": -8.2245},
+    "Espagne": {"latitude": 40.4637, "longitude": -3.7492},
+    "Italie": {"latitude": 41.8719, "longitude": 12.5674},
+    "Chili": {"latitude": -35.6751, "longitude": -71.543},
+    "Argentine": {"latitude": -38.4161, "longitude": -63.6167},
+    "Roumanie": {"latitude": 45.9432, "longitude": 24.9668},
+    "Grèce": {"latitude": 39.0742, "longitude": 21.8243},
+    "Suisse": {"latitude": 46.8182, "longitude": 8.2275},
+    "Croatie": {"latitude": 45.1, "longitude": 15.2},
+}
+
+# Add latitude and longitude columns to the DataFrame using manual_coordinates
+db_df_avg_rating['Latitude'] = db_df_avg_rating['Country Name'].apply(lambda country: manual_coordinates[country]['latitude'])
+db_df_avg_rating['Longitude'] = db_df_avg_rating['Country Name'].apply(lambda country: manual_coordinates[country]['longitude'])
+
+# Set the center of the map for the first visualization
+view_state_avg_rating = pdk.ViewState(
+    latitude=0,
+    longitude=0,
+    zoom=1,
+)
+
+# Prepare data for the map
+layer_avg_rating = pdk.Layer(
+    "ScatterplotLayer",
+    data=db_df_avg_rating,
+    get_position=["Longitude", "Latitude"],
+    get_radius="Average Rating",
+    radius_scale=100000,  
+    get_fill_color=[0, 255, 0, 150],
+    get_text="Average Rating", 
+    get_text_size=20,  
+    get_text_color=[255, 0, 0, 255],  
+)
+
+# Create the map for the visualization
+map_avg_rating = pdk.Deck(layers=[layer_avg_rating], initial_view_state=view_state_avg_rating)
+
+st.subheader("Leaderboard:")
+st.dataframe(db_df_avg_rating)
+
+st.title('Leaderboard and Map')
+st.write('')
+
+# Create two columns for layout
+col1, col2 = st.columns(2)
+
+with col1:
+    st.subheader("Average Ratings by Country")
+    st.pydeck_chart(map_avg_rating)
+
+with col2:
+    st.subheader("Leaderboard by Average Ratings")
+    st.dataframe(db_df_avg_rating)
+
+conn.close()
