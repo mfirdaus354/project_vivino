@@ -14,7 +14,7 @@ st.set_page_config(
 
 
 # Connect to your database
-conn = sqlite3.connect('../data/vivino.db')
+conn = sqlite3.connect('./data/vivino.db')
 
 # Query for the first visualization
 query_user_count = """
@@ -119,7 +119,7 @@ with col2:
     st.bar_chart(db_df_ratings_count.set_index('Country Name').sort_values(by='Ratings Count', ascending=False))
 
 # Connect to your database
-conn = sqlite3.connect('../data/vivino.db')
+conn = sqlite3.connect('./data/vivino.db')
 
 # Query to retrieve wine data along with flavor keywords and groups
 query_wine_flavors = """
@@ -188,7 +188,7 @@ st.write('Filtered Wines:')
 st.dataframe(filtered_df)
 
 # Connect to your database
-conn = sqlite3.connect('../data/vivino.db')
+conn = sqlite3.connect('./data/vivino.db')
 st.title("Wines for top 3 most common grapes Visualization")
 # Query to fetch the top 3 most common grape varieties
 grape_query = """
