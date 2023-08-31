@@ -310,4 +310,20 @@ with col2:
     st.dataframe(db_df_avg_rating)
 
 
+st.subheader("VIP wines cabernet sauvignon")
+query_vip_wine_list = """SELECT g.name,w.name,w.ratings_average FROM wines w
+                    JOIN regions r ON w.region_id = r.id
+                    JOIN countries c ON c.code =  r.country_code
+                    JOIN most_used_grapes_per_country mugp ON mugp.country_code = c.code
+                    JOIN grapes g ON g.id = mugp.grape_id
+                    WHERE g.name = 'Cabernet Sauvignon'
+                    ORDER BY w.name DESC
+                    LIMIT 5"""
+
+cursor = conn.execute(query_vip_wine_list)
+db_data_vip_list = cursor.fetchall()
+db_df_vip_list = pd.DataFrame(db_data_vip_list, columns=['Wine name','Wine Rating','Rating Average'])
+st.dataframe(db_df_vip_list)
+
+
 conn.close()
