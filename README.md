@@ -13,6 +13,10 @@ This project is aimed to provide an interactive analysis of vivino market segmen
 ```bash
 project_vivino
 ├── data
+│   ├── tableau_work
+│   │   ├── Screenshot (11).png
+│   │   ├── vivino1.pdf.twb
+│   │   ├── vivino1.twbx     
 │   ├── vivino_database.accdb
 │   └── vivino_db.mdb
 │   └── vivino.db    
