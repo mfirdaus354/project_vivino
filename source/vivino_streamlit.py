@@ -311,18 +311,34 @@ with col2:
 
 
 st.subheader("VIP wines cabernet sauvignon")
-query_vip_wine_list = """SELECT g.name,w.name,w.ratings_average FROM wines w
-                    JOIN regions r ON w.region_id = r.id
-                    JOIN countries c ON c.code =  r.country_code
-                    JOIN most_used_grapes_per_country mugp ON mugp.country_code = c.code
-                    JOIN grapes g ON g.id = mugp.grape_id
-                    WHERE g.name = 'Cabernet Sauvignon'
-                    ORDER BY w.name DESC
-                    LIMIT 5"""
+query_vip_wine_list = """SELECT
+                        wines.name,
+                        wines.ratings_average AS ranks,
+                        wines.ratings_count AS review_amount,
+                        most_used_grapes_per_country.grape_id AS grapes_id,
+                        grapes.name AS grapes_name,
+                        regions.name AS region_name,
+                        countries.name AS country_name
+                    FROM
+                        wines
+                    JOIN 
+                        regions ON wines.region_id = regions.id
+                    JOIN 
+                        countries ON regions.country_code = countries.code
+                    JOIN 
+                        most_used_grapes_per_country ON countries.code = most_used_grapes_per_country.country_code
+                    LEFT JOIN 
+                        grapes ON most_used_grapes_per_country.grape_id = grapes.id
+                    WHERE
+                        grapes.name = 'Cabernet Sauvignon'
+                        AND wines.ratings_average >= 4.5
+                    ORDER BY 
+                        review_amount DESC
+                    LIMIT 5;"""
 
 cursor = conn.execute(query_vip_wine_list)
 db_data_vip_list = cursor.fetchall()
-db_df_vip_list = pd.DataFrame(db_data_vip_list, columns=['Grape','Wine name','Rating Average'])
+db_df_vip_list = pd.DataFrame(db_data_vip_list, columns=['Wine name','Wine Rating','Review amount','Grape ID','Grape Name','Region name', 'Country Name'])
 st.dataframe(db_df_vip_list)
 
 
