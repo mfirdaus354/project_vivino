@@ -160,20 +160,19 @@ Country leaderboard based on average rating and number of vintage wines
 
 ![answer](./output/leaderboard-rating-vintage.png)
 
-Country Leaderboard Cloropleth Map
+Country Leaderboard Cloropleth Map - Average Rating
 
 ![answer](./output/country-leaderboard-wines.png)
 
-        THE AWARD GOES TO:
-        1. France
-        2. Italy
-        3. Spain
+        THE AWARD GOES TO
+        - FRANCE
+        - ITALY
+        - UNITED STATES OF AMERICA
 
-        HONORABLE MENTION:
-        1. United States of America
-        2. Argentina
-        3. Chile
-        4. Germany
+        HONORABLE MENTIONS
+        - SPAIN
+        - ARGENTINA
+        - PORTUGAL
 
 # Contributors
 - [Muhammad Firdausyi](https://github.com/mfirdaus354)
