@@ -23,8 +23,19 @@ project_vivino
 ├── notebooks
 │   ├── vivino_market_analysis.ipynb
 ├── output
-│   ├── Parameters.pdf
-│   └── price_dist_provinces.png
+│   ├── best-vintage.png
+│   └── Screenshot 2023-08-31 161953.png
+│   └── leaderboard-avg-rating.png
+│   └── leaderboard-rating-vintage.png
+│   └── matched-wine-keywords.png
+│   └── Screenshot 2023-08-31 161953.png
+│   └── top-cabernet.png
+│   └── top-chardonnay.png
+│   └── top-country-user.png
+│   └── top-grape.png
+│   └── top-merlot.png
+│   └── top-vintage.png
+│   └── top-wine-keywords.png
 ├── src
 │   └── vivino_streamlit.py
 ├── .gitignore
@@ -54,13 +65,13 @@ To use the project, follow these steps:
 
 3. The analysis of the dataset is accesible by opening the vivino_market_analysis.ipynb in the notebooks folder
 
-## INSIGHTS
+## Insights
 
-#### TABLEAU DASHBOARD
+#### Tableau Dashboard
 
 ![dashboard](./data/tableau_work/Screenshot%20(11).png).
 
-### QUESTION 1
+### Insight 1
 We want to highlight 10 wines to increase our sales. Which ones should we choose and why?
 - Those with good ratings but not a big amount of ratings
 - Natural wines?
@@ -77,7 +88,7 @@ Natural wines are wines made without chemical additives, such as tannin. We thin
 
 We recommend these vintage wines due to the fact that they have been consistently marking their place in our vintages_toplists_rankings table throughout multiple years, and their positions are substantiated with a significant amount of ratings and overall average rating score.
 
-### QUESTION 2
+### Insight 2
 We have a marketing budget for this year. Which country should we prioritise and why?
 - Those with high user count?
 - those we low user count?
@@ -98,7 +109,7 @@ Based on the information above, we suggest to focus the marketing resources on e
  4. United States of America (listed as États-Unis)
  5. Germany (listed as Allemagne)
 
-## QUESTION 3
+## Insight 3
 We have detected that a big cluster of customers like a specific combination of tastes.
 We have identified a few primary keywords that match this.
 We would like you to find all the wines that have those keywords. 
@@ -116,7 +127,7 @@ To ensure the accuracy of our selection, ensure that more than 10 users confirme
 - The requested 'flavor_key' are: 'coffee', 'toast', 'green apple', 'cream', 'citrus'
 - The requested 'flavor_key' belongs to 'citrus_fruit' 'flavor_group'
 
-## QUESTION 4
+## Insight 4
 We would like to select wines that are easy to find all over the world. 
 1. Find the top 3 most common grape all over the world 
 2. For each grape, give us the the 5 best rated wines.
@@ -137,7 +148,7 @@ Top 5 Chardonnay wines
 
 ![answer](./output/top-chardonnay.png)
 
-## QUESTION 5
+## Insight 5
 We would to give create a country leaderboard.
 Give us a visual that shows the average wine rating for each country.
 
@@ -164,6 +175,12 @@ Country Leaderboard Cloropleth Map
         3. Chile
         4. Germany
 
+# Contributors
+- [Muhammad Firdausyi](https://github.com/mfirdaus354)
+- [Monisha Hiltang](https://github.com/moni2code)
+- [Wouter Daneels](https://github.com/woujer)
 
+# License
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
