@@ -169,7 +169,7 @@ Country Leaderboard Cloropleth Map
         2. Italy
         3. Spain
 
-        HONORAABLE MENTION:
+        HONORABLE MENTION:
         1. United States of America
         2. Argentina
         3. Chile
